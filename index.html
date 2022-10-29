@@ -6,8 +6,9 @@
         
         <title>PokeTV Movie Getter (Does not Download Movies</title>
     </head>
-	<body>
-	<label for="file-upload-button">Select JSON File</label>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <body>
+		<label for="file-upload-button">Select JSON File</label>
 		<input id="file-upload-button" type="file">
 		<a href="https://www.pokemon.com/api/pokemontv/v2/channels/us/"><button>Get Current</button></a>
 	<hr/>
@@ -15,6 +16,10 @@
 		
 	</div>
 	<hr/>
+	<div id="playlists" style="padding: 2px 16px;">
+		<label for="upload-button">Select m3u8 File</label>
+		<input id="upload-button" type="file" accept=".m3u8" multiple="multiple">
+	</div>
 	<script>
 		var jsonObj;
 		$(document).on('change', '#file-upload-button', function(event) {
@@ -28,6 +33,26 @@
 
 			  reader.readAsText(event.target.files[0]);
 		});
+		
+		$(document).on('change', '#upload-button', function(event) {
+			  $.each(event.target.files, function(i, j)
+				{		  
+				  var reader = new FileReader();
+
+				  reader.onload = function(k) {
+				  
+					var allrows = k.target.result.split('\n');
+					var pieces = allrows[allrows.length-2].split('/playlist-')[0];
+					var newURL = "https://s2.content.video.llnw.net" + pieces +"/playlist0.ts <br/>";
+					
+					$("#Channels").append(newURL);
+					//console.log(event.target.result);
+				  }
+				  
+				  reader.readAsText(j);
+			  });
+		});
+
 		function createCard(elm){
 			var eName = elm.channel_name;
 			var imageURL = elm.channel_images.dashboard_image_1125_1500;
@@ -60,6 +85,9 @@
 			}, 1000*pauseme);
 			pauseme +=1;
 		}
+	</script>
+    </body>
+</html>
 		</script>
     </body>
 </html>
