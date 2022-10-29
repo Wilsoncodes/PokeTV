@@ -11,5 +11,26 @@
 		<input id="file-upload-button" type="file">
 		<a href="https://www.pokemon.com/api/pokemontv/v2/channels/us/"><button>Get Current</button></a>
 	<hr/>
+	<div id="Channels" style="padding: 2px 16px;">
+		
+	</div>
+	<hr/>
+	<script>
+		var jsonObj;
+		$(document).on('change', '#file-upload-button', function(event) {
+			  var reader = new FileReader();
+
+			  reader.onload = function(event) {
+				jsonObj = JSON.parse(event.target.result);
+				jsonObj.forEach(elm => createCard(elm));
+				console.log(jsonObj);
+			  }
+
+			  reader.readAsText(event.target.files[0]);
+		});
+		function createCard(elm){
+
+		}
+		</script>
     </body>
 </html>
